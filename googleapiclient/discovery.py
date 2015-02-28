@@ -710,11 +710,7 @@ def createMethod(methodName, methodDesc, rootDesc, schema):
                                                  body_value)
 
     expanded_url = uritemplate.expand(pathUrl, params)
-<<<<<<< HEAD
-    url = urljoin(self._baseUrl, expanded_url + query)
-=======
     url = _urljoin(self._baseUrl, expanded_url + query)
->>>>>>> 91debf8c4331d2b8b0841c27b1992f4226a25ef9
 
     resumable = None
     multipart_boundary = ''
@@ -740,11 +736,7 @@ def createMethod(methodName, methodDesc, rootDesc, schema):
 
       # Use the media path uri for media uploads
       expanded_url = uritemplate.expand(mediaPathUrl, params)
-<<<<<<< HEAD
-      url = urljoin(self._baseUrl, expanded_url + query)
-=======
       url = _urljoin(self._baseUrl, expanded_url + query)
->>>>>>> 91debf8c4331d2b8b0841c27b1992f4226a25ef9
       if media_upload.resumable():
         url = _add_query_parameter(url, 'uploadType', 'resumable')
 
