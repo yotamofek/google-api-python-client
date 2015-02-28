@@ -512,6 +512,23 @@ def _fix_up_method_description(method_desc, root_desc):
   return path_url, http_method, method_id, accept, max_size, media_path_url
 
 
+def _urljoin(base, url):
+  """Custom urljoin replacement supporting : before / in url."""
+  # In general, it's unsafe to simply join base and url. However, for
+  # the case of discovery documents, we know:
+  #  * base will never contain params, query, or fragment
+  #  * url will never contain a scheme or net_loc.
+  # In general, this means we can safely join on /; we just need to
+  # ensure we end up with precisely one / joining base and url. The
+  # exception here is the case of media uploads, where url will be an
+  # absolute url.
+  if url.startswith('http://') or url.startswith('https://'):
+    return urlparse.urljoin(base, url)
+  new_base = base if base.endswith('/') else base + '/'
+  new_url = url[1:] if url.startswith('/') else url
+  return new_base + new_url
+
+
 # TODO(dhermes): Convert this class to ResourceMethod and make it callable
 class ResourceMethodParameters(object):
   """Represents the parameters associated with a method.
@@ -693,7 +710,11 @@ def createMethod(methodName, methodDesc, rootDesc, schema):
                                                  body_value)
 
     expanded_url = uritemplate.expand(pathUrl, params)
+<<<<<<< HEAD
     url = urljoin(self._baseUrl, expanded_url + query)
+=======
+    url = _urljoin(self._baseUrl, expanded_url + query)
+>>>>>>> 91debf8c4331d2b8b0841c27b1992f4226a25ef9
 
     resumable = None
     multipart_boundary = ''
@@ -719,7 +740,11 @@ def createMethod(methodName, methodDesc, rootDesc, schema):
 
       # Use the media path uri for media uploads
       expanded_url = uritemplate.expand(mediaPathUrl, params)
+<<<<<<< HEAD
       url = urljoin(self._baseUrl, expanded_url + query)
+=======
+      url = _urljoin(self._baseUrl, expanded_url + query)
+>>>>>>> 91debf8c4331d2b8b0841c27b1992f4226a25ef9
       if media_upload.resumable():
         url = _add_query_parameter(url, 'uploadType', 'resumable')
 
