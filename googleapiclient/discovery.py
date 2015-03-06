@@ -523,7 +523,7 @@ def _urljoin(base, url):
   # exception here is the case of media uploads, where url will be an
   # absolute url.
   if url.startswith('http://') or url.startswith('https://'):
-    return urlparse(base, url)
+    return urljoin(base, url)
   new_base = base if base.endswith('/') else base + '/'
   new_url = url[1:] if url.startswith('/') else url
   return new_base + new_url
